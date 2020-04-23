@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textViewTittle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tittle"
+        android:textSize="@dimen/text_size_19"
+        android:layout_marginStart="@dimen/size_5"
+        android:layout_marginEnd="@dimen/size_15"/>
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="1"
+    android:layout_below="@+id/textViewTittle">
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_5"
+        android:layout_marginTop="@dimen/size_5"
+        android:layout_marginEnd="@dimen/size_5"
+        android:textSize="@dimen/text_size_19"
+        android:text="TextView Description about the list items"
+        android:layout_weight="0.4"/>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_5"
+        android:layout_marginEnd="@dimen/size_15"
+        android:contentDescription="null"
+        app:srcCompat="@drawable/ic_launcher_foreground"
+        android:layout_weight="0.6"/>
+    </LinearLayout>
+</RelativeLayout>
