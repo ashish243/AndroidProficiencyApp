@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             setupViewModel()
             setupObservers()
         }else{
+            swipeContainer.isRefreshing = false
             supportActionBar?.title = ""
             isFromPullToRefresh = false
             rvItems.visibility = View.GONE
@@ -79,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         swipeContainer.setOnRefreshListener {
             isFromPullToRefresh = true
             initialize()
-            swipeContainer.isRefreshing = false
+
         }
     }
 
@@ -92,12 +93,13 @@ class MainActivity : AppCompatActivity() {
                         textViewMessage.visibility = View.GONE
                         Log.d("MainActivity","data successfully loaded")
                         resource.data?.let { users -> retrieveList(users) }
+                        swipeContainer.isRefreshing = false
                     }
                     ERROR -> {
                         rvItems.visibility = View.VISIBLE
                         textViewMessage.visibility = View.GONE
                         Log.d("MainActivity","Error Message "+it.message)
-                        Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                        swipeContainer.isRefreshing = false
                     }
                     LOADING -> {
                         Log.d("MainActivity", "Loading values from serve");
