@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AndroidProficiencyApp</string>
+    <string name="no_connection">There is no network on your phone. Please check..!!</string>
+    <string name="contentLoding">Loading values from server</string>
+    <string name="success">data successfully loaded</string>
+
 </resources>
