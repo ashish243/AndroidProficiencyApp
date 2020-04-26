@@ -18,12 +18,12 @@ class MainAdapter(private val users: ArrayList<Rows>) : RecyclerView.Adapter<Dat
 
         fun bind(row: Rows) {
             itemView.apply {
-                textViewTittle.text = row.title
-                textViewDescription.text = row.description
+                textViewTittle.text = row.title?: "Null"
+                textViewDescription.text = row.description?: "Null"
                 Glide.with(imageViewAvatar.context)
                     .load(row.imageHref)
                     .placeholder(R.drawable.ic_launcher_foreground)
-                    .error(R.drawable.ic_launcher_background)
+                    .error(R.mipmap.ic_launcher_round)
                     .into(imageViewAvatar)
             }
         }

@@ -3,13 +3,11 @@ package com.androidproficiencyapp.ui.main.view
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.androidproficiencyapp.R
 import com.androidproficiencyapp.R.*
 import com.androidproficiencyapp.data.api.ApiHelper
 import com.androidproficiencyapp.data.api.RetrofitBuilder
@@ -29,8 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var adapter: MainAdapter
-    lateinit var cd: CheckNetworkConnection
-    var isFromPullToRefresh: Boolean = false
+    private lateinit var cd: CheckNetworkConnection
+    private var isFromPullToRefresh: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             isFromPullToRefresh = false
             rvItems.visibility = View.GONE
             textViewMessage.visibility = View.VISIBLE
-            textViewMessage.text = getString(R.string.no_connection)
+            textViewMessage.text = getString(string.no_connection)
         }
     }
 
@@ -102,11 +100,11 @@ class MainActivity : AppCompatActivity() {
                         swipeContainer.isRefreshing = false
                     }
                     LOADING -> {
-                        Log.d("MainActivity", "Loading values from serve");
+                        Log.d("MainActivity", "Loading values from serve")
 
                         if (!isFromPullToRefresh) {
                             textViewMessage.visibility = View.VISIBLE
-                            textViewMessage.text = getString(R.string.contentLoding)
+                            textViewMessage.text = getString(string.contentLoding)
                             isFromPullToRefresh = true
                         } else {
                             isFromPullToRefresh = false

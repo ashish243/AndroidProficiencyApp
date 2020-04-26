@@ -13,7 +13,7 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
     fun getList() = liveData(Dispatchers.IO) {
         emit(Resource.loading(data = null))
         try {
-            Log.d("MainViewModel","Succes")
+            Log.d("MainViewModel","Success")
             emit(Resource.success(data = mainRepository.getList()))
         } catch (exception: Exception) {
             Log.d("MainViewModel","Exception ${exception.message ?: "Error Occurred!"}")
