@@ -1,23 +1,44 @@
 package com.androidproficiencyapp.ui.main.viewmodel
 
-import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
-import com.androidproficiencyapp.data.repository.MainRepository
+import com.androidproficiencyapp.data.api.ApiHelper
 import com.androidproficiencyapp.utils.Resource
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.viewModelScope
+import com.androidproficiencyapp.data.model.Rows
+import kotlinx.coroutines.launch
 
+class MainViewModel(private val apiHelper: ApiHelper) : ViewModel() {
+    private val listOfRow = MutableLiveData<Resource<List<Rows>>>()
+    private val title = MutableLiveData<String>()
 
-class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
+    init {
+        fetchListOfCanada()
+    }
 
-    fun getList() = liveData(Dispatchers.IO) {
-        emit(Resource.loading(data = null))
-        try {
-            Log.d("MainViewModel","Success")
-            emit(Resource.success(data = mainRepository.getList()))
-        } catch (exception: Exception) {
-            Log.d("MainViewModel","Exception ${exception.message ?: "Error Occurred!"}")
-            emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+    private fun fetchListOfCanada() {
+        viewModelScope.launch {
+            listOfRow.postValue(Resource.loading(data = null))
+            try {
+                val rowsFromApi = apiHelper.getList()
+                val appTitle = apiHelper.getTitle()
+
+                listOfRow.postValue(Resource.success(data = rowsFromApi))
+                title.postValue(appTitle)
+
+            } catch (exception: Exception) {
+                title.postValue("")
+                listOfRow.postValue(Resource.error(data = null, message = exception.toString()))
+            }
         }
     }
+
+    fun getTitle(): LiveData<String> {
+        return title
+    }
+    fun getList(): LiveData<Resource<List<Rows>>> {
+        return listOfRow
+    }
+
 }

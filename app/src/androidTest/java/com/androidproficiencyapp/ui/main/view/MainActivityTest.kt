@@ -30,7 +30,7 @@ class MainActivityTest {
     @Throws(java.lang.Exception::class)
     fun loadMore_shouldPass() {
 
-        Thread.sleep(2000);
+        Thread.sleep(2000)
         onView(withId(rvItems)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(2)).perform(swipeUp())
 
     }

@@ -1,6 +1,9 @@
 package com.androidproficiencyapp.data.api
 
-class ApiHelper(private val apiService: ApiService) {
+import com.androidproficiencyapp.data.model.Rows
 
-    suspend fun getList() = apiService.getList()
+interface ApiHelper {
+    suspend fun getTitle(): String
+    suspend fun getList(): List<Rows>
+
 }

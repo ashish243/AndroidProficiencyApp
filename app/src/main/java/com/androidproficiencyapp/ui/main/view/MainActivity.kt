@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.androidproficiencyapp.R.*
-import com.androidproficiencyapp.data.api.ApiHelper
+import com.androidproficiencyapp.data.api.ApiHelperImpl
 import com.androidproficiencyapp.data.api.RetrofitBuilder
-import com.androidproficiencyapp.data.model.AboutCanada
+import com.androidproficiencyapp.data.model.Rows
 import com.androidproficiencyapp.ui.base.ViewModelFactory
 import com.androidproficiencyapp.ui.main.adapter.MainAdapter
 import com.androidproficiencyapp.ui.main.viewmodel.MainViewModel
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProviders.of(
             this,
-            ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
+            ViewModelFactory(ApiHelperImpl(RetrofitBuilder.apiService))
         ).get(MainViewModel::class.java)
     }
 
@@ -83,6 +83,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
+        viewModel.getTitle().observe(this, Observer {
+            it?.let { supportActionBar?.title = it }
+        })
+
         viewModel.getList().observe(this, Observer {
             it?.let { resource ->
                when (resource.status) {
@@ -90,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                         rvItems.visibility = View.VISIBLE
                         textViewMessage.visibility = View.GONE
                         Log.d("MainActivity","data successfully loaded")
-                        resource.data?.let { users -> retrieveList(users) }
+                        resource.data?.let { listOfRow -> retrieveList(listOfRow) }
                         swipeContainer.isRefreshing = false
                     }
                     ERROR -> {
@@ -116,14 +120,10 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun retrieveList(aboutCanada: AboutCanada) {
-
-        supportActionBar?.title = aboutCanada.title
-        val rows = aboutCanada.rows
+    private fun retrieveList(rows: List<Rows>) {
         adapter.apply {
             addUsers(rows)
             notifyDataSetChanged()
         }
     }
-
 }
